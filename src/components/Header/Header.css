@@ -25,6 +25,11 @@
     cursor: pointer;
 }
 
+.header__profile-link {
+    text-decoration: none;
+    color: black;
+  }
+  
 .header__user-container {
     display: flex;
     align-items: center;
