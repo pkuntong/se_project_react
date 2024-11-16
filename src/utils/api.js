@@ -1,3 +1,5 @@
+import Header from "../components/Header/Header";
+
 const baseUrl = "http://localhost:3001";
 
 function checkResponse(res) {

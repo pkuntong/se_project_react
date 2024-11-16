@@ -9,6 +9,7 @@ function ToggleSwitch() {
     );
     
 return (
+    <div className="toggle-switch">
         <label htmlFor="switch__box" className="switch">
             <input 
             id="switch__box"
@@ -31,6 +32,7 @@ return (
                 currentTemperatureUnit === "C" && "switch__active"}`}>C
             </p>
         </label> 
+    </div>
       );
 }
 
