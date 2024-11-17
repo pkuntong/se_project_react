@@ -17,7 +17,7 @@ function Main({ weatherData, weatherTemp, onCardClick, clothingItems }) {
           Today is {temp} &deg; {currentTemperatureUnit} / You may want to wear:
         </h1>
             <ul className="cards__list">
-              {defaultClothingItems
+              {clothingItems
                 .filter((item) => {
                   return item.weather === weatherData.type;
                 })
@@ -26,7 +26,7 @@ function Main({ weatherData, weatherTemp, onCardClick, clothingItems }) {
                     <ItemCard
                       key={item._id}
                       item={item}
-                      onCardClick={handleCardClick}
+                      onCardClick={onCardClick}
                     />
               );
             })}    
