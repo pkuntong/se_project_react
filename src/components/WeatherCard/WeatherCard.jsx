@@ -5,22 +5,22 @@ import { defaultWeatherOptions, weatherOptions } from "../../utils/constants";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 
 function WeatherCard({ weatherData, weatherTemp }) {
-    const { CurrentTemperatureUnitContext } = useContext(CurrentTemperatureUnitContext);
-    const filteredOptions = weatherOptions.filter((option) => {
-        return (
-            option.day === weatherData.isDay &&
-            option.condition === weatherData.condition 
-        );
-    });
+  const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
+  const filteredOptions = weatherOptions.filter((option) => {
+    return (
+      option.day === weatherData.isDay &&
+      option.condition === weatherData.condition
+    );
+  });
 
-    let weatherOption;
-    if (filteredOptions.length === 0) {
-        weatherOption = defaultWeatherOptions[weatherData.isDay ? "day" : "night"];
-    } else {
-        weatherOption = filteredOptions[0];
-    }
+  let weatherOption;
+  if (filteredOptions.length === 0) {
+    weatherOption = defaultWeatherOptions[weatherData.isDay ? "day" : "night"];
+  } else {
+    weatherOption = filteredOptions[0];
+  }
 
- return (
+  return (
     <section className="weather-card">
       <p className="weather-card__temp">
         {weatherTemp} &deg; {currentTemperatureUnit}
@@ -36,4 +36,4 @@ function WeatherCard({ weatherData, weatherTemp }) {
   );
 }
 
-export default WeatherCard; 
+export default WeatherCard;
