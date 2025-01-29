@@ -1,0 +1,52 @@
+.modal__content_type_image {
+  max-width: 498px;
+  max-height: 610px;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Ensure content stacks vertically */
+  max-height: calc(100vh - 40px); /* Leave space for padding and footer */
+  overflow-y: auto;
+}
+
+.modal__close_type_image {
+  top: 24px;
+  right: 24px;
+  position: absolute;
+}
+
+.modal__image {
+  width: 100%;
+  max-height: calc(100vh - 150px);  
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.modal__footer {
+  margin: 20px 0 32px 32px;
+  font-family: "CabinetGrotesk-Bold", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.modal__caption {
+  margin: 0 0 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal__delete-btn {
+  color: #FF4D00;
+  border: none; 
+  background: none;
+}
+
+.modal__weather {
+  margin: 0;
+}
+
+.modal__delete-btn:hover {
+  cursor: pointer;
+}

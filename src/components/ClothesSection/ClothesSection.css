@@ -1,0 +1,24 @@
+.clothes-section__text {
+  display: flex;
+  gap: 20px;
+}
+
+.clothes-section__btn {
+  border: none;
+  background: none;
+  color: #00000099;
+  padding: 0;
+  margin: 0;
+}
+
+.clothes-section__btn:hover {
+  cursor: pointer;
+}
+
+.clothes-section__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+}

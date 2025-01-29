@@ -1,0 +1,15 @@
+.page {
+    background-color: #f3f3f3; 
+}
+
+.page__content {
+    font-family: "CabinetGrotesk-Bold", Arial, Helvetica, sans-serif;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+    font-size: 20px;
+}
