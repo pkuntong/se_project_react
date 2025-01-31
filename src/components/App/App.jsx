@@ -1,5 +1,7 @@
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+
 import { useEffect, useState } from "react";
+
 import "./App.css";
 import { coordinates, APIkey } from "../../utils/constants";
 import Header from "../Header/Header";
@@ -42,33 +44,64 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleRegisterModal = () => setActiveModal("signup");
-  const handleLogInModal = () => setActiveModal("login");
-  const handleEditProfileModal = () => setActiveModal("edit");
-  const handleAddClick = () => setActiveModal("add-garment");
+  const handleRegisterModal = () => {
+    setActiveModal("signup");
+  };
+
+  const handleLogInModal = () => {
+    setActiveModal("login");
+  };
+
+  const handleEditProfileModal = () => {
+    setActiveModal("edit");
+  };
+
+  const handleAddClick = () => {
+    setActiveModal("add-garment");
+  };
+
   const handleCardClick = (card) => {
     setActiveModal("preview");
     setSelectedCard(card);
   };
 
-  const closeActiveModal = () => setActiveModal("");
+  const handleOpenDelete = () => {
+    setActiveModal("confirm");
+  };
+
+  const closeActiveModal = () => {
+    setActiveModal("");
+  };
+
+  const handleRegistration = (data) => {
+    register(data)
+      .then(() => {
+        handleLogIn({ email: data.email, password: data.password });
+      })
+      .catch(console.error);
+  };
 
   const handleLogIn = ({ email, password }) => {
-    if (!email || !password) return;
+    if (!email || !password) {
+      return;
+    }
     logIn({ email, password })
       .then((data) => {
-        if (!data.token) console.error("No JWT token found.");
+        if (!data.token) console.error("No JWT token found in the response.");
         setToken(data.token);
         return getUserInfo(data.token);
       })
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
+
         const redirectPath = location.state?.from?.pathname || "/profile";
         navigate(redirectPath);
         closeActiveModal();
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error("Error logging in: ", err);
+      });
   };
 
   const handleLogOut = () => {
@@ -78,12 +111,42 @@ function App() {
     navigate("/");
   };
 
+  const handleEditUser = ({ name, avatar }) => {
+    const token = localStorage.getItem("jwt");
+    editUserInfo({ name, avatar }, token)
+      .then((newData) => {
+        setCurrentUser(newData);
+        closeActiveModal();
+      })
+      .catch((err) => console.error("Edit profile error:", err));
+  };
+
   const handleAddItem = ({ name, imageUrl, weather }) => {
     const token = getToken();
-    if (!token) return console.error("No token found.");
+    if (!token) {
+      console.error("No token found, user might not be authenticated");
+      return;
+    }
     addClothingItems({ name, imageUrl, weather }, token)
       .then((item) => {
-        setClothingItems((prevItems) => [item.data, ...prevItems]);
+        setClothingItems((clothingItems) => [item.data, ...clothingItems]);
+        closeActiveModal();
+      })
+      .catch(console.error);
+  };
+
+  const handleDeleteItem = () => {
+    const token = getToken();
+    if (!token) {
+      console.error("No token found, user might not be authenticated");
+      return;
+    }
+    deleteClothingItems(selectedCard, token)
+      .then(() => {
+        const updatedClothingItems = clothingItems.filter(
+          (item) => item._id !== selectedCard._id
+        );
+        setClothingItems(updatedClothingItems);
         closeActiveModal();
       })
       .catch(console.error);
@@ -91,51 +154,50 @@ function App() {
 
   const handleCardLike = ({ id, isLiked }) => {
     const token = getToken();
-    if (!token) return console.error("No token found.");
 
-    const action = !isLiked ? addCardLike : removeCardLike;
-    action(id, token)
-      .then((updatedCard) => {
-        setClothingItems((cards) =>
-          cards.map((item) => (item._id === id ? updatedCard.data : item))
-        );
-      })
-      .catch(console.error);
+    !isLiked
+      ? addCardLike(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard.data : item))
+            );
+          })
+          .catch((err) => console.log(err))
+      : removeCardLike(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard.data : item))
+            );
+          })
+          .catch((err) => console.log(err));
   };
 
   const handleToggleSwitchChange = () => {
-    setCurrentTemperatureUnit((prevUnit) =>
-      prevUnit === "F" ? "C" : "F"
-    );
+    currentTemperatureUnit === "F"
+      ? setCurrentTemperatureUnit("C")
+      : setCurrentTemperatureUnit("F");
   };
 
-  // Fetch weather data on initial load
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => {
         const filteredData = filterWeatherData(data);
         setWeatherData(filteredData);
       })
-      .catch((err) => {
-        console.error("Error fetching weather data:", err);
-        setWeatherData({
-          type: "error",
-          temp: { F: 999 },
-          city: "Unable to fetch weather data",
-        });
-      });
-  }, []);
-
-  // Fetch clothing items on initial load
-  useEffect(() => {
-    getClothingItems()
-      .then((data) => setClothingItems(data.data))
       .catch(console.error);
   }, []);
 
-  // Check if user is logged in with token on initial load
+  useEffect(() => {
+    getClothingItems()
+      .then((data) => {
+        setClothingItems(data.data.reverse());
+      })
+      .catch(console.error);
+  }, []);
+
   useEffect(() => {
     const jwt = getToken();
+
     if (jwt) {
       getUserInfo(jwt)
         .then((user) => {
@@ -148,6 +210,8 @@ function App() {
           removeToken();
           setIsLoggedInLoading(false);
         });
+    } else {
+      setIsLoggedInLoading(false);
     }
   }, []);
 
@@ -189,9 +253,9 @@ function App() {
                       handleAddClick={handleAddClick}
                       onCardClick={handleCardClick}
                       clothingItems={clothingItems}
-                      onCardLike={handleCardLike}
-                      handleLogOut={handleLogOut}
                       handleEditProfileModal={handleEditProfileModal}
+                      handleLogOut={handleLogOut}
+                      onCardLike={handleCardLike}
                     />
                   </ProtectedRoute>
                 }
@@ -203,7 +267,7 @@ function App() {
             <RegisterModal
               onClose={closeActiveModal}
               isOpen={activeModal === "signup"}
-              onRegister={handleAddItem}
+              onRegister={handleRegistration}
               handleLogInModal={handleLogInModal}
             />
             <LoginModal
@@ -215,7 +279,7 @@ function App() {
             <EditProfileModal
               onClose={closeActiveModal}
               isOpen={activeModal === "edit"}
-              onEdit={handleAddItem}
+              onEdit={handleEditUser}
             />
             <AddItemModal
               onClose={closeActiveModal}
@@ -226,6 +290,7 @@ function App() {
               activeModal={activeModal}
               card={selectedCard}
               onClose={closeActiveModal}
+              onOpenDelete={handleOpenDelete}
             />
           </div>
         </CurrentTemperatureUnitContext.Provider>
