@@ -198,9 +198,16 @@ function App() {
   useEffect(() => {
     getClothingItems()
       .then((data) => {
-        setClothingItems(data.data.reverse());
+        if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
+          setClothingItems([...data.data].reverse());
+        } else {
+          console.warn("Warning: No clothing items found or invalid data format.", data);
+          setClothingItems([]); // Ensure state is an empty array instead of undefined
+        }
       })
-      .catch(console.error);
+      .catch((error) => {
+        console.error("Error fetching clothing items:", error);
+      });
   }, []);
 
   // Check if there is a jwt token
