@@ -110,4 +110,13 @@
 
 .modal__submit:hover {
   background-color: #00000099;
+  cursor: pointer;
+}
+
+.modal__alternate-link {
+  border: none;
+  background: none;
+  padding: 0 0 0 12px;
+  color: #00000080;
+  cursor: pointer;
 }

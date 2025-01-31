@@ -10,6 +10,7 @@ import Profile from "../Profile/Profile";
 import Footer from "../Footer/Footer";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
+import ModalWithConfirm from "../ModalWithConfirm/ModalWithConfirm";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
@@ -73,6 +74,7 @@ function App() {
     setActiveModal("");
   };
 
+  // Handle sign up
   const handleRegistration = (data) => {
     register(data)
       .then(() => {
@@ -81,6 +83,7 @@ function App() {
       .catch(console.error);
   };
 
+  // Handle log in
   const handleLogIn = ({ email, password }) => {
     if (!email || !password) {
       return;
@@ -104,6 +107,7 @@ function App() {
       });
   };
 
+  // Handle log out
   const handleLogOut = () => {
     setCurrentUser(null);
     setIsLoggedIn(false);
@@ -111,6 +115,7 @@ function App() {
     navigate("/");
   };
 
+  // Edit profile changes
   const handleEditUser = ({ name, avatar }) => {
     const token = localStorage.getItem("jwt");
     editUserInfo({ name, avatar }, token)
@@ -121,6 +126,7 @@ function App() {
       .catch((err) => console.error("Edit profile error:", err));
   };
 
+  // Add items
   const handleAddItem = ({ name, imageUrl, weather }) => {
     const token = getToken();
     if (!token) {
@@ -135,6 +141,7 @@ function App() {
       .catch(console.error);
   };
 
+  // Delete items
   const handleDeleteItem = () => {
     const token = getToken();
     if (!token) {
@@ -152,6 +159,7 @@ function App() {
       .catch(console.error);
   };
 
+  // Like items
   const handleCardLike = ({ id, isLiked }) => {
     const token = getToken();
 
@@ -195,6 +203,7 @@ function App() {
       .catch(console.error);
   }, []);
 
+  // Check if there is a jwt token
   useEffect(() => {
     const jwt = getToken();
 
@@ -291,6 +300,11 @@ function App() {
               card={selectedCard}
               onClose={closeActiveModal}
               onOpenDelete={handleOpenDelete}
+            />
+            <ModalWithConfirm
+              activeModal={activeModal}
+              onClose={closeActiveModal}
+              onDeleteItem={handleDeleteItem}
             />
           </div>
         </CurrentTemperatureUnitContext.Provider>

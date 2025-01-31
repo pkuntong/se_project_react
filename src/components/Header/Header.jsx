@@ -71,7 +71,6 @@ function Header({
           </button>
         </div>
       )}
-
     </header>
   );
 }
