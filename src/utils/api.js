@@ -59,6 +59,8 @@ const removeCardLike = (id, token) => {
 
 export {
   baseUrl,
+  checkResponse,
+  request,
   getClothingItems,
   addClothingItems,
   deleteClothingItems,

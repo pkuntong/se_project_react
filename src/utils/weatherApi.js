@@ -2,7 +2,6 @@ function checkResponse(res) {
   if (res.ok) {
     return res.json();
   }
-  // Improved error message with status text
   return Promise.reject(`Error: ${res.status} ${res.statusText}`);
 }
 
@@ -13,23 +12,22 @@ export const getWeather = ({ latitude, longitude }, APIkey) => {
   }
 
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`;
-  console.log("Fetching weather data from URL:", url); // Debugging log
-
+  console.log("Fetching weather data from URL:", url);
   return fetch(url)
     .then(checkResponse)
     .catch((error) => {
       console.error("Failed to fetch weather data:", error);
-      return Promise.reject(error); // Explicit rejection to propagate the error
+      return Promise.reject(error);
     });
 };
 
 export const filterWeatherData = (data) => {
   try {
-    // Extract relevant data with better validation
+
     const result = {
       city: data?.name || "Unknown Location",
       temp: {
-        F: Math.round(data?.main?.temp ?? 0), // Default to 0 if temp is missing
+        F: Math.round(data?.main?.temp ?? 0),
         C: Math.round(((data?.main?.temp ?? 0) - 32) * 5 / 9),
       },
       type: getWeatherType(data?.main?.temp ?? 0),
@@ -46,7 +44,7 @@ export const filterWeatherData = (data) => {
 const isDay = ({ sunrise, sunset } = {}, now) => {
   if (!sunrise || !sunset) {
     console.warn("Sunrise/sunset data is missing.");
-    return false; // Default to night if data is invalid
+    return false;
   }
   return sunrise * 1000 < now && now < sunset * 1000;
 };

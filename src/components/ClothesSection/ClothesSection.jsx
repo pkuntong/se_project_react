@@ -11,9 +11,19 @@ function ClothesSection({
 }) {
   const currentUser = useContext(CurrentUserContext);
 
-  const userItems = clothingItems.filter(
-    (item) => item.owner?._id === currentUser?._id
-  );
+  // Ensure currentUser exists before filtering
+  const userItems = clothingItems.filter((item) => {
+    return item.owner?._id === currentUser?._id; // Safe check for owner and currentUser
+  });
+
+  // Check if currentUser is null and prevent rendering if needed
+  if (!currentUser) {
+    return (
+      <div className="clothes-section">
+        <p>You need to be logged in to view your items.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="clothes-section">
@@ -22,7 +32,7 @@ function ClothesSection({
         <button
           onClick={handleAddClick}
           type="button"
-          className={`clothes-section__btn`}
+          className="clothes-section__btn"
         >
           + Add New
         </button>
@@ -40,7 +50,7 @@ function ClothesSection({
             );
           })
         ) : (
-          <p>No clothing items found</p>
+          <p>No clothing items found</p> // Message when no user items
         )}
       </ul>
     </div>
