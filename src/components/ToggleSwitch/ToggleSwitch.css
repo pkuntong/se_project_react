@@ -1,21 +1,20 @@
-.switch {
-  display: flex;
-  position: relative;
+.toggle {
   margin-left: auto;
   padding-right: 20px;
+  display: flex;
+  position: relative;
+  font-size: 14px;
 }
 
-.switch__box {
+.toggle__input {
   border-radius: 25px;
-  border: 2px solid black;
+  border: 2px solid #7e7e7e;
   width: 56px;
   height: 28px;
   appearance: none;
-  position: relative;
-  overflow: hidden;
 }
 
-.switch__slider {
+.toggle__slider {
   border-radius: 20px;
   width: 28px;
   height: 28px;
@@ -26,48 +25,28 @@
   position: absolute;
 }
 
-.switch__slider-C {
+.toggle__slider-C {
   left: 28px;
-  transition: translate 0.2s linear;
 }
 
-.switch__slider-C:hover {
-  translate: 2px;
+.toggle__slider-F {
 }
 
-.switch__slider-F {
-  transition: translate 0.2s linear;
-}
-
-.switch__slider-F:hover {
-  translate: -2px;
-}
-
-.switch__temp-C {
+.toggle__temp-F {
   position: absolute;
-  font-size: 14px;
-  top: -8px;
-  left: 36px;
-  opacity: 0.5;
+  top: -7px;
+  left: 9px;
+  color: #00000080;
 }
 
-.switch__temp-F {
+.toggle__temp-C {
   position: absolute;
-  font-size: 14px;
-  top: -8px;
-  left: 10px;
-  opacity: 0.5;
+  top: -7px;
+  left: 38px;
+  color: #00000080;
 }
 
-.switch__active {
+.toggle__active {
+  font-size: 14px;
   color: white;
-  opacity: 1;
-  cursor: pointer;
 }
-
-.toggle-switch {
-  flex: 1;
-  display: flex;
-}
-
-

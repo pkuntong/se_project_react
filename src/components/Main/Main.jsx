@@ -9,11 +9,11 @@ function Main({
   weatherData,
   weatherTemp,
   onCardClick,
-  clothingItems = [],
+  clothingItems,
   onCardLike,
 }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
-  const temp = weatherTemp?.[currentTemperatureUnit] ?? "N/A";
+  const temp = weatherTemp?.[currentTemperatureUnit] || 999;
 
   return (
     <main className="main">
@@ -28,12 +28,14 @@ function Main({
               return item.weather === weatherData.type;
             })
             .map((item) => {
+              return (
                 <ItemCard
                   key={item._id}
                   item={item}
                   onCardClick={onCardClick}
                   onCardLike={onCardLike}
                 />
+              );
             })}
         </ul>
       </section>

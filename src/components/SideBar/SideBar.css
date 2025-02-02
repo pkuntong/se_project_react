@@ -12,7 +12,11 @@
 .sidebar__avatar {
   width: 56px;
   height: 56px;
-  padding-right: 16px;
+  border-radius: 30px;
+}
+
+.sidebar__username {
+  padding-left: 16px;
 }
 
 .sidebar__button-container {
@@ -25,9 +29,11 @@
 .sidebar__button-edit {
   padding: 0;
   border: none;
+  cursor: pointer;
 }
 
 .sidebar__button-logout {
   padding: 0;
   border: none;
+  cursor: pointer;
 }

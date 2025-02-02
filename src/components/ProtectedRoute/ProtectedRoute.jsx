@@ -11,7 +11,6 @@ function ProtectedRoute({
 
   if (isLoggedInLoading) return null;
 
-
   if (anonymous && isLoggedIn) {
     return <Navigate to={from} />;
   }

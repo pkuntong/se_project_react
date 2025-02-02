@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+
+import { useEffect, useState } from "react";
+
 import "./App.css";
 import { coordinates, APIkey } from "../../utils/constants";
 import Header from "../Header/Header";
@@ -189,7 +191,7 @@ function App() {
   useEffect(() => {
     getClothingItems()
       .then((data) => {
-        setClothingItems(data.data);
+        setClothingItems(data.data.reverse());
       })
       .catch(console.error);
   }, []);
