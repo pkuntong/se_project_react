@@ -54,11 +54,10 @@ function RegisterModal({ onClose, handleLogInModal, onRegister, isOpen }) {
       isOpen={isOpen}
       onSubmit={handleSubmit}
     >
-      <label htmlFor="register-email" className="modal__label">
-        Email *{" "}
+      <label className="modal__label">
+        Email *
         <input
-          id="register-email"
-          name="register-email"
+          name="email"
           value={email}
           type="email"
           className="modal__input"
@@ -68,11 +67,10 @@ function RegisterModal({ onClose, handleLogInModal, onRegister, isOpen }) {
           onChange={handleEmailChange}
         />
       </label>
-      <label htmlFor="register-password" className="modal__label">
-        Password *{" "}
+      <label className="modal__label">
+        Password *
         <input
-          id="register-password"
-          name="register-password"
+          name="password"
           value={password}
           type="password"
           className="modal__input"
@@ -82,10 +80,9 @@ function RegisterModal({ onClose, handleLogInModal, onRegister, isOpen }) {
           onChange={handlePasswordChange}
         />
       </label>
-      <label htmlFor="name" className="modal__label">
-        Name *{" "}
+      <label className="modal__label">
+        Name *
         <input
-          id="register-name"
           name="name"
           value={name}
           type="text"
@@ -96,10 +93,9 @@ function RegisterModal({ onClose, handleLogInModal, onRegister, isOpen }) {
           onChange={handleNameChange}
         />
       </label>
-      <label htmlFor="avatar" className="modal__label">
-        Avatar URL *{" "}
+      <label className="modal__label">
+        Avatar URL *
         <input
-          id="register-avatar"
           name="avatar"
           value={avatar}
           type="text"

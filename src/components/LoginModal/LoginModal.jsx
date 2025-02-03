@@ -46,11 +46,10 @@ function LoginModal({ onClose, onLogIn, isOpen, handleRegisterModal }) {
       isOpen={isOpen}
       onSubmit={handleSubmit}
     >
-      <label htmlFor="login-email" className="modal__label">
-        Email *{" "}
+      <label className="modal__label">
+        Email *
         <input
-          id="login-email"
-          name="login-email"
+          name="email"
           value={data.email}
           type="email"
           className="modal__input"
@@ -60,11 +59,10 @@ function LoginModal({ onClose, onLogIn, isOpen, handleRegisterModal }) {
           onChange={handleEmailChange}
         />
       </label>
-      <label htmlFor="login-password" className="modal__label">
-        Password *{" "}
+      <label className="modal__label">
+        Password *
         <input
-          id="login-password"
-          name="login-password"
+          name="password"
           value={data.password}
           type="password"
           className="modal__input"
