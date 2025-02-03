@@ -1,51 +1,78 @@
 .cards {
-    font-family: "CabinetGrotesk-Bold", "Arial", sans-serif;
-    font-weight: 700;
-  }
-  
-  .cards__text {
-    margin: 0;
-    padding: 40px 0 34px;
-    font-size: 20px;
-  }
-  
-  .cards__list {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0;
-    padding: 0;
-    gap: 20px;
-  }
-  
-  .card {
-    position: relative;
-  }
-  
-  .card:hover {
-    cursor: pointer;
-  }
-  
-  .card__title {
-    margin: 0;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    top: 15px;
-    font-family: "CabinetGrotesk-Bold", "Arial", sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    color: #00000099;
-  }
-  
-  .card__title_type_background {
-    background-color: #fff;
-    padding: 2px 12px;
-  }
-  
-  .card__image {
-    width: 325px;
-    height: 328px;
-    border: solid rgba(0, 0, 0, 0.3) 1px;
-    border-radius: 20px;
-    box-sizing: border-box;
-  }
+  font-family: "CabinetGrotesk-Bold", "Arial", sans-serif;
+  font-weight: 700;
+}
+
+.cards__text {
+  margin: 0;
+  padding: 40px 0 34px;
+  font-size: 20px;
+}
+
+.cards__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+}
+
+.card {
+  position: relative;
+  list-style-type: none;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+.card__title-container {
+  position: absolute;
+  top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  left: 0;
+  right: 0;
+  align-items: center;
+}
+
+.card__title {
+  color: #00000099;
+  font-family: CabinetGrotesk-Bold, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  padding: 2px 12px;
+  border-radius: 4px;
+  text-align: center;
+  width: fit-content;
+  background-color: white;
+}
+
+.card__heart {
+  background-color: transparent;
+  background-image: url(../../assets/card-heart.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 15px;
+  border: none;
+  width: 18px;
+  padding: 0;
+}
+
+.card__heart-liked {
+  background-image: url(../../assets/card-heart_liked.svg);
+}
+
+.card__heart-hidden {
+  visibility: hidden;
+}
+
+.card__image {
+  width: 325px;
+  height: 328px;
+  border: solid rgba(0, 0, 0, 0.3) 1px;
+  border-radius: 20px;
+  box-sizing: border-box;
+}

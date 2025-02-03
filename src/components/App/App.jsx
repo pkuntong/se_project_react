@@ -1,7 +1,5 @@
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-
 import { useEffect, useState } from "react";
-
 import "./App.css";
 import { coordinates, APIkey } from "../../utils/constants";
 import Header from "../Header/Header";
@@ -27,7 +25,6 @@ import {
 } from "../../utils/api";
 import { logIn, register, getUserInfo, editUserInfo } from "../../utils/auth";
 import { getToken, removeToken, setToken } from "../../utils/token";
-
 function App() {
   const [weatherData, setWeatherData] = useState({
     type: "",
@@ -41,35 +38,27 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoggedInLoading, setIsLoggedInLoading] = useState(true);
-
   const navigate = useNavigate();
   const location = useLocation();
-
   const handleRegisterModal = () => {
     setActiveModal("signup");
   };
-
   const handleLogInModal = () => {
     setActiveModal("login");
   };
-
   const handleEditProfileModal = () => {
     setActiveModal("edit");
   };
-
   const handleAddClick = () => {
     setActiveModal("add-garment");
   };
-
   const handleCardClick = (card) => {
     setActiveModal("preview");
     setSelectedCard(card);
   };
-
   const handleOpenDelete = () => {
     setActiveModal("confirm");
   };
-
   const closeActiveModal = () => {
     setActiveModal("");
   };
@@ -81,7 +70,6 @@ function App() {
       })
       .catch(console.error);
   };
-
   const handleLogIn = ({ email, password }) => {
     if (!email || !password) {
       return;
@@ -95,7 +83,6 @@ function App() {
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
-
         const redirectPath = location.state?.from?.pathname || "/profile";
         navigate(redirectPath);
         closeActiveModal();
@@ -104,14 +91,12 @@ function App() {
         console.error("Error logging in: ", err);
       });
   };
-
   const handleLogOut = () => {
     setCurrentUser(null);
     setIsLoggedIn(false);
     removeToken();
     navigate("/");
   };
-
   const handleEditUser = ({ name, avatar }) => {
     const token = localStorage.getItem("jwt");
     editUserInfo({ name, avatar }, token)
@@ -121,21 +106,21 @@ function App() {
       })
       .catch((err) => console.error("Edit profile error:", err));
   };
-
   const handleAddItem = ({ name, imageUrl, weather }) => {
     const token = getToken();
     if (!token) {
       console.error("No token found, user might not be authenticated");
       return;
+
     }
     addClothingItems({ name, imageUrl, weather }, token)
       .then((item) => {
         setClothingItems((clothingItems) => [item.data, ...clothingItems]);
         closeActiveModal();
       })
+
       .catch(console.error);
   };
-
   const handleDeleteItem = () => {
     const token = getToken();
     if (!token) {
@@ -152,10 +137,8 @@ function App() {
       })
       .catch(console.error);
   };
-
   const handleCardLike = ({ id, isLiked }) => {
     const token = getToken();
-
     !isLiked
       ? addCardLike(id, token)
           .then((updatedCard) => {
@@ -170,15 +153,14 @@ function App() {
               cards.map((item) => (item._id === id ? updatedCard.data : item))
             );
           })
+
           .catch((err) => console.log(err));
   };
-
   const handleToggleSwitchChange = () => {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
   };
-
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => {
@@ -187,7 +169,6 @@ function App() {
       })
       .catch(console.error);
   }, []);
-
   useEffect(() => {
     getClothingItems()
       .then((data) => {
@@ -195,10 +176,8 @@ function App() {
       })
       .catch(console.error);
   }, []);
-
   useEffect(() => {
     const jwt = getToken();
-
     if (jwt) {
       getUserInfo(jwt)
         .then((user) => {
@@ -215,7 +194,6 @@ function App() {
       setIsLoggedInLoading(false);
     }
   }, []);
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -304,5 +282,4 @@ function App() {
     </CurrentUserContext.Provider>
   );
 }
-
 export default App;

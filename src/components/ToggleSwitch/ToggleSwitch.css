@@ -29,8 +29,9 @@
   left: 28px;
 }
 
-.toggle__slider-F {
-}
+/* .toggle__slider-F {
+  right: 0;
+} */
 
 .toggle__temp-F {
   position: absolute;
