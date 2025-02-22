@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://pkuntong.github.io/se_project_react/",
+  "homepage": "https://gcp-demo.mooo.com",
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
