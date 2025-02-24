@@ -78,9 +78,3 @@ export const defaultWeatherOptions = {
 
   export const APIkey = "900fea863c2e6119ba9038cd05ff9c19";
 
-  const BASE_URL =
-    Process.env.NODE_ENV === "production"
-      ? "https://api.gcp-demo.mooo.com"
-      : "http://localhost:3001";
-
-  export { location, APIkey, BASE_URL };

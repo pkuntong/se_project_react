@@ -1,4 +1,4 @@
-import { BASE_URL } from "../utils/constants";
+const baseUrl = "http://localhost:3001";
 
 function checkResponse(res) {
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
