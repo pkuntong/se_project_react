@@ -120,3 +120,28 @@
   color: #00000080;
   cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+  .modal__content {
+    max-width: 90%;
+    max-height: 90vh;
+    padding: 20px 20px 28px;
+    margin: 20px;
+    overflow-y: auto;
+  }
+
+  .modal__input {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .modal__title {
+    font-size: 18px;
+    padding-bottom: 20px;
+  }
+
+  .modal__close {
+    top: 16px;
+    right: 20px;
+  }
+}

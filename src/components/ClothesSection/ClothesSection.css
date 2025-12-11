@@ -22,3 +22,15 @@
   padding: 0;
   gap: 20px;
 }
+
+@media screen and (max-width: 768px) {
+  .clothes-section__text {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .clothes-section__list {
+    gap: 12px;
+    justify-content: center;
+  }
+}

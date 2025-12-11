@@ -24,3 +24,17 @@
   object-position: top right;
   width: 100%;
 }
+
+@media screen and (max-width: 768px) {
+  .weather-card {
+    height: 60px;
+    border-radius: 8px;
+  }
+
+  .weather-card__temp {
+    font-size: 28px;
+    line-height: 32px;
+    top: 14px;
+    left: 12px;
+  }
+}

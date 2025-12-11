@@ -2,6 +2,12 @@
   padding: 32px 0 28px;
   display: flex;
   align-items: center;
+  gap: 20px;
+}
+
+.header__logo {
+  flex-shrink: 0;
+  height: auto;
 }
 
 .header__date-and-location {
@@ -10,6 +16,7 @@
   font-family: "CabinetGrotesk-Bold", "Arial", sans-serif;
   font-weight: 700;
   font-size: 20px;
+  flex: 1;
 }
 
 .header__add-clothes-btn {
@@ -64,4 +71,64 @@
   border: none;
   padding: 0;
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px 0 12px;
+  }
+
+  .header__logo {
+    flex-shrink: 0;
+    max-width: 89px;
+    height: auto;
+  }
+
+  .header__date-and-location {
+    font-size: 14px;
+    padding: 0;
+    flex: 1;
+    min-width: 0;
+    order: 2;
+  }
+
+  .header__add-clothes-btn {
+    font-size: 14px;
+    order: 4;
+    width: 100%;
+    text-align: left;
+    padding: 8px 0 0 0;
+  }
+
+  .header__user-container {
+    margin-left: auto;
+    gap: 8px;
+    order: 1;
+  }
+
+  .header__username {
+    font-size: 12px;
+    padding: 0;
+    display: none; /* Hide username on mobile, just show avatar */
+  }
+
+  .header__profile-link {
+    margin-left: auto;
+    order: 1;
+  }
+
+  .header__auth-buttons {
+    gap: 12px;
+    font-size: 14px;
+    margin-left: auto;
+    order: 1;
+  }
+
+  .header__avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+  }
 }

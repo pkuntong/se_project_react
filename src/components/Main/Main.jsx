@@ -15,6 +15,10 @@ function Main({
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
   const temp = weatherTemp?.[currentTemperatureUnit] || 999;
 
+  const filteredItems = clothingItems.filter((item) => {
+    return item.weather === weatherData.type;
+  });
+
   return (
     <main className="main">
       <WeatherCard weatherData={weatherData} weatherTemp={temp} />
@@ -22,12 +26,9 @@ function Main({
         <h1 className="cards__text">
           Today is {temp} &deg; {currentTemperatureUnit} / You may want to wear:
         </h1>
-        <ul className="cards__list">
-          {clothingItems
-            .filter((item) => {
-              return item.weather === weatherData.type;
-            })
-            .map((item) => {
+        {filteredItems.length > 0 ? (
+          <ul className="cards__list">
+            {filteredItems.map((item) => {
               return (
                 <ItemCard
                   key={item._id}
@@ -37,7 +38,15 @@ function Main({
                 />
               );
             })}
-        </ul>
+          </ul>
+        ) : (
+          <p className="cards__empty">
+            No clothing items found for {weatherData.type} weather. 
+            {clothingItems.length > 0 
+              ? ` You have ${clothingItems.length} item${clothingItems.length > 1 ? 's' : ''} in your collection, but none match this weather type.`
+              : " Add some clothing items to get recommendations!"}
+          </p>
+        )}
       </section>
     </main>
   );

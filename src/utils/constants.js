@@ -78,6 +78,6 @@ export const defaultWeatherOptions = {
 
   export const APIkey = "900fea863c2e6119ba9038cd05ff9c19";
 
-  export const baseUrl = process.env.NODE_ENV === "production"
+  export const baseUrl = import.meta.env.PROD
   ? "https://api.demo.mooo.com"
   : "http://localhost:3001";

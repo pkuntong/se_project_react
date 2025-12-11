@@ -63,32 +63,51 @@ function App() {
     setActiveModal("");
   };
 
-  const handleRegistration = (data) => {
+  const handleRegistration = (data, resetForm) => {
     register(data)
       .then(() => {
-        handleLogIn({ email: data.email, password: data.password });
+        handleLogIn({ email: data.email, password: data.password }, resetForm);
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error("Registration error: ", err);
+        const errorMessage = err.includes("401") || err.includes("400")
+          ? "Invalid email or password. Please try again."
+          : err.includes("409")
+          ? "This email is already registered. Please log in instead."
+          : "Registration failed. Please try again.";
+        alert(errorMessage);
+      });
   };
-  const handleLogIn = ({ email, password }) => {
+  const handleLogIn = ({ email, password }, resetForm) => {
     if (!email || !password) {
       return;
     }
     logIn({ email, password })
       .then((data) => {
-        if (!data.token) console.error("No JWT token found in the response.");
+        if (!data.token) {
+          console.error("No JWT token found in the response.");
+          alert("Login failed. Please check your credentials and try again.");
+          return;
+        }
         setToken(data.token);
         return getUserInfo(data.token);
       })
       .then((user) => {
+        if (!user) return;
         setCurrentUser(user);
         setIsLoggedIn(true);
         const redirectPath = location.state?.from?.pathname || "/profile";
         navigate(redirectPath);
         closeActiveModal();
+        if (resetForm) resetForm();
       })
       .catch((err) => {
         console.error("Error logging in: ", err);
+        const errorMessage = err.includes("401") || err.includes("400")
+          ? "Invalid email or password. Please check your credentials and try again."
+          : "Login failed. Please try again.";
+        alert(errorMessage);
+        if (resetForm) resetForm();
       });
   };
   const handleLogOut = () => {
@@ -98,7 +117,7 @@ function App() {
     navigate("/");
   };
   const handleEditUser = ({ name, avatar }) => {
-    const token = localStorage.getItem("jwt");
+    const token = getToken();
     editUserInfo({ name, avatar }, token)
       .then((newData) => {
         setCurrentUser(newData);
@@ -172,9 +191,19 @@ function App() {
   useEffect(() => {
     getClothingItems()
       .then((data) => {
-        setClothingItems(data.data.reverse());
+        // Handle different response structures
+        if (Array.isArray(data)) {
+          setClothingItems(data.reverse());
+        } else if (data && data.data && Array.isArray(data.data)) {
+          setClothingItems(data.data.reverse());
+        } else {
+          console.warn("Unexpected clothing items response structure:", data);
+          setClothingItems([]);
+        }
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error("Error fetching clothing items:", err);
+      });
   }, []);
   useEffect(() => {
     const jwt = getToken();

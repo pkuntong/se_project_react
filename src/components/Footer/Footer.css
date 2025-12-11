@@ -1,6 +1,8 @@
 .footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
     font-family: "CabinetGrotesk-Medium";
     font-weight: 500;
     font-size: 16px;
@@ -13,4 +15,13 @@
 
 .footer__production-year {
     margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .footer {
+        font-size: 14px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        text-align: center;
+    }
 }

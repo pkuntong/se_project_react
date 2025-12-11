@@ -17,6 +17,15 @@
   gap: 20px;
 }
 
+.cards__empty {
+  margin: 20px 0;
+  padding: 20px;
+  font-family: "CabinetGrotesk-Medium", "Arial", sans-serif;
+  font-size: 16px;
+  color: #00000099;
+  text-align: center;
+}
+
 .card {
   position: relative;
   list-style-type: none;
@@ -75,4 +84,28 @@
   border: solid rgba(0, 0, 0, 0.3) 1px;
   border-radius: 20px;
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .cards__text {
+    font-size: 16px;
+    padding: 24px 0 20px;
+  }
+
+  .cards__list {
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .card__image {
+    width: 100%;
+    max-width: 325px;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .card__title {
+    font-size: 14px;
+    padding: 2px 8px;
+  }
 }
