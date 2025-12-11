@@ -186,7 +186,17 @@ function App() {
         const filteredData = filterWeatherData(data);
         setWeatherData(filteredData);
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error("Weather API error:", err);
+        // Set default weather data on error
+        setWeatherData({
+          type: "cold",
+          temp: { F: 0, C: 0 },
+          city: "Unknown",
+          condition: "clear",
+          isDay: true,
+        });
+      });
   }, []);
   useEffect(() => {
     getClothingItems()
@@ -202,7 +212,9 @@ function App() {
         }
       })
       .catch((err) => {
-        console.error("Error fetching clothing items:", err);
+        console.error("Error fetching clothing items - backend may be unavailable:", err);
+        // Set empty array if backend is down
+        setClothingItems([]);
       });
   }, []);
   useEffect(() => {

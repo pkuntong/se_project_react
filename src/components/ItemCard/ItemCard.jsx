@@ -2,7 +2,7 @@ import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import "./ItemCard.css";
 
-function ItemCard({ item, onCardClick, onCardLike }) {
+function ItemCard({ item, onCardClick, onCardLike, isRecommended = false, currentWeatherType }) {
   const currentUser = useContext(CurrentUserContext);
 
   const handleCardClick = () => {
@@ -20,9 +20,14 @@ function ItemCard({ item, onCardClick, onCardLike }) {
   }`;
 
   return (
-    <li className="card">
+    <li className={`card ${isRecommended ? "card_recommended" : ""}`}>
       <div className="card__title-container">
         <h2 className="card__title">{item.name}</h2>
+        {isRecommended && (
+          <span className="card__badge" title={`Recommended for ${currentWeatherType} weather`}>
+            ✓
+          </span>
+        )}
         {currentUser?._id && (
           <button
             onClick={handleLike}

@@ -15,9 +15,16 @@ function Main({
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
   const temp = weatherTemp?.[currentTemperatureUnit] || 999;
 
-  const filteredItems = clothingItems.filter((item) => {
-    return item.weather === weatherData.type;
+  // Sort items: recommended (matching weather) first, then others
+  const sortedItems = [...clothingItems].sort((a, b) => {
+    const aMatches = a.weather === weatherData.type;
+    const bMatches = b.weather === weatherData.type;
+    if (aMatches && !bMatches) return -1;
+    if (!aMatches && bMatches) return 1;
+    return 0;
   });
+
+  const recommendedCount = clothingItems.filter(item => item.weather === weatherData.type).length;
 
   return (
     <main className="main">
@@ -26,26 +33,33 @@ function Main({
         <h1 className="cards__text">
           Today is {temp} &deg; {currentTemperatureUnit} / You may want to wear:
         </h1>
-        {filteredItems.length > 0 ? (
-          <ul className="cards__list">
-            {filteredItems.map((item) => {
-              return (
-                <ItemCard
-                  key={item._id}
-                  item={item}
-                  onCardClick={onCardClick}
-                  onCardLike={onCardLike}
-                />
-              );
-            })}
-          </ul>
+        {clothingItems.length > 0 ? (
+          <>
+            {recommendedCount > 0 && (
+              <p className="cards__recommended-text">
+                {recommendedCount} recommended item{recommendedCount > 1 ? 's' : ''} for {weatherData.type} weather
+              </p>
+            )}
+            <ul className="cards__list">
+              {sortedItems.map((item) => {
+                const isRecommended = item.weather === weatherData.type;
+                return (
+                  <ItemCard
+                    key={item._id}
+                    item={item}
+                    onCardClick={onCardClick}
+                    onCardLike={onCardLike}
+                    isRecommended={isRecommended}
+                    currentWeatherType={weatherData.type}
+                  />
+                );
+              })}
+            </ul>
+          </>
         ) : (
-          <p className="cards__empty">
-            No clothing items found for {weatherData.type} weather. 
-            {clothingItems.length > 0 
-              ? ` You have ${clothingItems.length} item${clothingItems.length > 1 ? 's' : ''} in your collection, but none match this weather type.`
-              : " Add some clothing items to get recommendations!"}
-          </p>
+          <div className="cards__empty">
+            <p>Backend API is currently unavailable. Clothing items cannot be loaded at this time.</p>
+          </div>
         )}
       </section>
     </main>

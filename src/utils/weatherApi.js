@@ -1,8 +1,23 @@
-import { checkResponse } from "./api";
+// Removed checkResponse import - handling response directly
 
 export const getWeather = ({ latitude, longitude }, APIkey) => {
   const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`;
-  return fetch(weatherUrl).then(checkResponse);
+  return fetch(weatherUrl, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Weather API error: ${res.status} ${res.statusText}`);
+      }
+      return res.json();
+    })
+    .catch((err) => {
+      console.error('Weather API fetch error:', err);
+      throw err;
+    });
 };
 
 export const filterWeatherData = (data) => {

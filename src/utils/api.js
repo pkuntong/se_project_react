@@ -6,7 +6,21 @@ function checkResponse(res) {
 }
 
 function request(url, options) {
-  return fetch(url, options).then(checkResponse);
+  return fetch(url, {
+    ...options,
+    mode: 'cors',
+    credentials: 'omit',
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`API error: ${res.status} ${res.statusText}`);
+      }
+      return res.json();
+    })
+    .catch((err) => {
+      console.error('API request error:', err, 'URL:', url);
+      throw err;
+    });
 }
 
 const getClothingItems = () => {
